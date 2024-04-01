@@ -142,6 +142,18 @@ router.post(
   }
 );
 
+router.post("/getuser", async (req, res) => {
+  const userEmail = req.body.email;
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+    res.status(200).json({ success: true, name: user.name }); // Sending the name back as a response
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).json({ success: false, errors: "Internal Server Error" });
+  }
+});
+
 router.post("/fooditem", async (req, res) => {
   try {
     const options = { half: req.body.half, full: req.body.full };
@@ -152,7 +164,7 @@ router.post("/fooditem", async (req, res) => {
       img: req.body.img,
       options: options,
       email: req.body.email,
-      description: "Indian masala",
+      description: req.body.description,
     });
   } catch (error) {
     console.log(error);
