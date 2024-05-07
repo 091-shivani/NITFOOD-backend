@@ -106,28 +106,34 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success: false, errors: errors.array() });
     }
 
     let email = req.body.email;
     try {
       let userData = await User.findOne({ email });
       if (!userData) {
-        return res.status(400).json({ errors: "mail is incorrect" });
+        return res
+          .status(400)
+          .json({ success: false, errors: "mail is incorrect" });
       }
-
+      // console.log(userData);
+      if (userData.is_verified === "0") {
+        return res
+          .status(400)
+          .json({ success: false, errors: "email not verified" });
+      }
       const pwdCompare = await bcrypt.compare(
         req.body.password,
         userData.password
       );
 
       if (!pwdCompare) {
-        return res.status(400).json({ errors: "password wrong" });
+        return res
+          .status(400)
+          .json({ success: false, errors: "password wrong" });
       }
 
-      if (req.body.is_verified === "0") {
-        return res.status(400).json({ errors: "email not verified" });
-      }
       const data = {
         user: {
           id: userData.id,

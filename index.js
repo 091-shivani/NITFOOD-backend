@@ -3,6 +3,7 @@ const app = express();
 const port = 5000;
 const { mongoDB } = require("./db");
 const { header } = require("express-validator");
+const Razorpay = require("razorpay");
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use("/api", require("./Routes/CreateUser"));
 app.use("/api", require("./Routes/DisplayData"));
 app.use("/api", require("./Routes/OrderData"));
+app.use("/api", require("./Routes/payment"));
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
