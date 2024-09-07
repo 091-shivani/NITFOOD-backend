@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-// asame2829    8qfPZa61cs1v0G9A
-const mongoURL =
-  "mongodb+srv://asame2829:8qfPZa61cs1v0G9A@cluster3.vzjwh1k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster3";
+const mongoURL = "mongodb://localhost:27017";
+// const mongoURL =
+//   "mongodb+srv://asame2829:8qfPZa61cs1v0G9A@cluster3.vzjwh1k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster3";
 const mongoDB = async () => {
   try {
     await mongoose.connect(mongoURL, { useNewUrlParser: true });
